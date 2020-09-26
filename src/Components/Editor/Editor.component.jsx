@@ -7,6 +7,7 @@ import "codemirror/mode/css/css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompress, faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { Controlled as ControlledEditor } from "react-codemirror2";
+import "./Editor.styles.scss";
 
 const Editor = (props) => {
   const { displayName, onChange, value, lang } = props;

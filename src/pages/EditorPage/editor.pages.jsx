@@ -1,15 +1,20 @@
 import React, { Fragment, useState, useEffect } from "react";
-import Editor from "../Components/Editor.component";
-import { useParams } from "react-router-dom";
-import useLocalStorage from "../hooks/useLocalStorage.hooks";
-function EditorPage() {
+import Editor from "../../Components/Editor/Editor.component";
+import { useParams, useHistory } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage.hooks";
+import "./EditorPage.styles.scss";
+function EditorPage({ user }) {
   const { id, userid } = useParams();
-  const [html, setHTML] = useLocalStorage(`${id}-html`, "");
-  const [css, setCSS] = useLocalStorage(`${id}-css`, "");
-  const [js, setJS] = useLocalStorage(`${id}-js`, "");
+  const [html, setHTML] = useLocalStorage(`${userid}-${id}-html`, "");
+  const [css, setCSS] = useLocalStorage(`${userid}-${id}-css`, "");
+  const [js, setJS] = useLocalStorage(`${userid}-${id}-js`, "");
   const [srcDoc, setSrcDoc] = useState("");
-
+  const history = useHistory();
   useEffect(() => {
+    if (!user.userid) {
+      history.push("/signin");
+    }
+
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
@@ -20,7 +25,8 @@ function EditorPage() {
       `);
       return () => clearTimeout(timeout);
     }, 250);
-  }, [html, css, js]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [html, css, js, user.userid]);
   return (
     <Fragment>
       <div className="pane top-pane">
