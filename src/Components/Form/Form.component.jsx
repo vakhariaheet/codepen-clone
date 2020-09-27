@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 const Form = ({ user, onSumit, setUserId, setPassword, btnText, to }) => {
   const history = useHistory();

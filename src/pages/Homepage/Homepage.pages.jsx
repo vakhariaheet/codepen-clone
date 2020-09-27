@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const Homepage = ({ user, setUser }) => {
   const history = useHistory();
   useEffect(() => {
+    console.log(process.env.REACT_APP_SERVER_URL, "hello");
     if (!user.userid) {
       history.push("/signin");
     }
@@ -18,8 +19,15 @@ const Homepage = ({ user, setUser }) => {
     <div className="">
       <button onClick={onSignOut}>SignOut</button>
       <h1>All Pens</h1>
-      <Link to={`/${user.userid}/pen/123`}>Pen 1</Link>
-      <Link to={`/${user.userid}/pen/566`}>Pen 2</Link>
+      {user.pens
+        ? user.pens.map(({ name, _id }) => {
+            return (
+              <Link to={`/${user.userid}/pen/${_id}`} key={_id}>
+                {name}
+              </Link>
+            );
+          })
+        : null}
     </div>
   );
 };

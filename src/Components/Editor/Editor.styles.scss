@@ -14,6 +14,7 @@
       overflow: hidden;
       .CodeMirror {
         height: 100% !important;
+        font-size: 1.1rem;
       }
     }
   }
@@ -40,4 +41,8 @@
     position: absolute;
     overflow: hidden;
   }
+}
+.cm-s-default {
+  background-color: #36373b !important;
+  color: white !important;
 }
