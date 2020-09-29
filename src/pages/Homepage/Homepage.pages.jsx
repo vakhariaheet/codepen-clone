@@ -1,28 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { db } from "../../firebase";
 import { Link } from "react-router-dom";
 const Homepage = ({ user, setUser }) => {
+  const [currentUser, setCurrentUser] = useState({});
   const history = useHistory();
+
   useEffect(() => {
-    console.log(process.env.REACT_APP_SERVER_URL, "hello");
-    if (!user.userid) {
-      history.push("/signin");
-    }
+    console.log(user);
+    setCurrentUser(user);
   }, []);
   const onSignOut = () => {
     if (user.userid) {
       setUser({});
       history.push("/signin");
     }
+    history.push("/signin");
   };
   return (
     <div className="">
       <button onClick={onSignOut}>SignOut</button>
       <h1>All Pens</h1>
-      {user.pens
-        ? user.pens.map(({ name, _id }) => {
+      {currentUser.pens
+        ? currentUser.pens.map(({ name, id }) => {
             return (
-              <Link to={`/${user.userid}/pen/${_id}`} key={_id}>
+              <Link to={`/${user.userid}/pen/${id}`} key={id}>
                 {name}
               </Link>
             );

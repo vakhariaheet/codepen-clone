@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import Editor from "../../Components/Editor/Editor.component";
 import { useParams, useHistory, Link } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage.hooks";
-
 import "./EditorPage.styles.scss";
 
 function EditorPage({ user }) {
@@ -54,16 +53,19 @@ function EditorPage({ user }) {
   }, [html, css, js, user.userid]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/pen?id=${id}`)
-      .then((resp) => resp.json())
-      .then(({ pens }) => {
-        const { code } = pens[0];
-        const { html, css, js } = code;
-        setHTML(html);
-        setCSS(css);
-        setJS(js);
-        setPen(pens[0]);
-      });
+    // fetch(`${process.env.REACT_APP_SERVER_URL}/pen?id=${id}`)
+    //   .then((resp) => resp.json())
+    //   .then(({ pens }) => {
+    //     const { code } = pens[0];
+    //     const { html, css, js } = code;
+    //     setHTML(html);
+    //     setCSS(css);
+    //     setJS(js);
+    //     setPen(pens[0]);
+    //   });
+    setHTML(user.pens[0].code.html);
+    setJS(user.pens[0].code.js);
+    setCSS(user.pens[0].code.css);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

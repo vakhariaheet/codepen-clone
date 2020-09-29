@@ -4,33 +4,41 @@ import EditorPage from "./pages/EditorPage/editor.pages";
 import Form from "./Components/Form/Form.component";
 import useLocalStorage from "./hooks/useLocalStorage.hooks";
 import Homepage from "./pages/Homepage/Homepage.pages";
+import TerminalComponent from "./Components/Termial";
+import { db } from "./firebase";
 import { config } from "dotenv";
+import uid from "uid";
 config();
 function App() {
   const [user, setUser] = useLocalStorage("CurrentUser", {});
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+
   const onSumit = async (type) => {
     if (userid && password) {
-      fetch(`${process.env.REACT_APP_SERVER_URL}/${type}`, {
-        method: "post",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          userid,
-          password,
-        }),
-      })
-        .then((resp) => resp.json())
-        .then((user) => {
-          if (!user._id) {
-            alert("Wrong Creaditials");
-            console.log(user);
-          } else {
-            setUser(user);
-            history.push("/");
-          }
-        });
+      const docRef = await db.collection("users").add({
+        userid,
+        password,
+        pens: [
+          {
+            name: "Demo",
+            id: uid(),
+            code: {
+              html: "<h1>Hello</h1>",
+              css: "h1{color:#333}",
+              js: "",
+            },
+          },
+        ],
+      });
+      const doc = await docRef.get();
+      setUser({
+        id: doc.id,
+        ...doc.data(),
+      });
+      console.log(doc.data(), doc.id, doc);
+      history.push("/");
     }
   };
 
@@ -41,6 +49,7 @@ function App() {
         exact
         render={() => <Homepage user={user} setUser={setUser} />}
       />
+      <Route path="/terminal" component={TerminalComponent} />
       <Route
         path="/signin"
         exact
@@ -50,12 +59,12 @@ function App() {
             setPassword={setPassword}
             setUserId={setUserId}
             btnText={"Signin"}
-            onSumit={() => onSumit("signin")}
+            onSumit={onSumit}
             to="register"
           />
         )}
       />
-      <Route
+      {/* <Route
         path="/register"
         exact
         render={() => (
@@ -66,9 +75,8 @@ function App() {
             btnText={"Register"}
             to="signin"
             onSumit={() => onSumit("register")}
-          />
-        )}
-      />
+          /> */}
+      {/* )} /> */}
       <Route
         path="/:userid/pen/:id"
         exact
