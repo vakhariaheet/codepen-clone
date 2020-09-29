@@ -11,6 +11,11 @@ function EditorPage({ user }) {
   const [js, setJS] = useLocalStorage(`${userid}-${id}-js`, "");
   const [pen, setPen] = useState({});
   const [srcDoc, setSrcDoc] = useState("");
+  const initialCode = {
+    html: "",
+    css: "",
+    js: "",
+  };
   const history = useHistory();
   const onSave = async () => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/update/pen`, {
@@ -35,10 +40,6 @@ function EditorPage({ user }) {
     console.log(pen.name, user, html, css, js);
   };
   useEffect(() => {
-    if (!user.userid) {
-      history.push("/signin");
-    }
-
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
@@ -50,7 +51,7 @@ function EditorPage({ user }) {
       return () => clearTimeout(timeout);
     }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [html, css, js, user.userid]);
+  }, [html, css, js]);
 
   useEffect(() => {
     // fetch(`${process.env.REACT_APP_SERVER_URL}/pen?id=${id}`)
@@ -63,9 +64,15 @@ function EditorPage({ user }) {
     //     setJS(js);
     //     setPen(pens[0]);
     //   });
-    setHTML(user.pens[0].code.html);
-    setJS(user.pens[0].code.js);
-    setCSS(user.pens[0].code.css);
+    if (user) {
+      setHTML(user.pens[0].code.html);
+      setJS(user.pens[0].code.js);
+      setCSS(user.pens[0].code.css);
+    } else {
+      setHTML(initialCode.html);
+      setCSS(initialCode.css);
+      setJS(initialCode.js);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

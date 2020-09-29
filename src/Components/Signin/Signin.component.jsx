@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-const Form = ({ user, onSumit, setUserId, setPassword, btnText, to }) => {
+const Signin = ({ user, setUser }) => {
+  const [userid, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const onSignin = async (type) => {
+    history.push("/");
+  };
   const history = useHistory();
   useEffect(() => {
     if (user.userid) {
@@ -29,12 +34,12 @@ const Form = ({ user, onSumit, setUserId, setPassword, btnText, to }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button className="submit" type="submit" onClick={onSumit}>
-        {btnText}
+      <button className="submit" type="submit" onClick={onSignin}>
+        Sign IN
       </button>
-      <Link to={`/${to}`}>Want to {to}</Link>
+      <Link to={`/register`}>Dont have a account?</Link>
     </div>
   );
 };
 
-export default Form;
+export default Signin;
