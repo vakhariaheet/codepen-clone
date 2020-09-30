@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Editor from "../../Components/Editor/Editor.component";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { db } from "../../firebase";
 import useLocalStorage from "../../hooks/useLocalStorage.hooks";
 import "./EditorPage.styles.scss";
 
@@ -16,28 +17,23 @@ function EditorPage({ user }) {
     css: "",
     js: "",
   };
-  const history = useHistory();
   const onSave = async () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/update/pen`, {
-      method: "post",
-      headers: {
-        "Content-type": "application/json",
+    const pen = await db.doc(`users/${user.id}/pens/${id}`).get();
+
+    setPen({
+      id: pen.id,
+      ...pen.data,
+    });
+    await db.doc(`users/${user.id}/pens/${id}`).set({
+      ...pen.data(),
+      code: {
+        html,
+        css,
+        js,
       },
-      body: JSON.stringify({
-        name: pen.name,
-        id: user._id,
-        code: {
-          html,
-          css,
-          js,
-        },
-      }),
-    })
-      .then((resp) => resp.json())
-      .then((pen) => {
-        console.log(pen);
-      });
-    console.log(pen.name, user, html, css, js);
+    });
+    alert("Save Successful");
+    // console.log(pen);
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -49,26 +45,23 @@ function EditorPage({ user }) {
       </html>
       `);
       return () => clearTimeout(timeout);
-    }, 500);
+    }, 700);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [html, css, js]);
 
   useEffect(() => {
-    // fetch(`${process.env.REACT_APP_SERVER_URL}/pen?id=${id}`)
-    //   .then((resp) => resp.json())
-    //   .then(({ pens }) => {
-    //     const { code } = pens[0];
-    //     const { html, css, js } = code;
-    //     setHTML(html);
-    //     setCSS(css);
-    //     setJS(js);
-    //     setPen(pens[0]);
-    //   });
-    if (user) {
-      setHTML(user.pens[0].code.html);
-      setJS(user.pens[0].code.js);
-      setCSS(user.pens[0].code.css);
+    if (user.id) {
+      db.doc(`users/${user.id}/pens/${id}`)
+        .get()
+        .then((snapshot) => {
+          const { code } = snapshot.data();
+          setHTML(code.html);
+          setCSS(code.css);
+          setJS(code.js);
+          console.log(code);
+        });
     } else {
+      console.log("Initial code");
       setHTML(initialCode.html);
       setCSS(initialCode.css);
       setJS(initialCode.js);
@@ -79,6 +72,7 @@ function EditorPage({ user }) {
     <Fragment>
       <nav className="navbar">
         <Link to="/">Home</Link>
+        <h1>{pen.name}</h1>
         <button onClick={onSave}>Save</button>
       </nav>
       <div className="pane top-pane">

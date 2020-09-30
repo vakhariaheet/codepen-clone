@@ -1,43 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import {
+  signinWithGoogle,
+  signinWithFacebook,
+  signinWithTwitter,
+  signinWithGithub,
+} from "../../firebase";
+import "./Signin.styles.scss";
 const Signin = ({ user, setUser }) => {
-  const [userid, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const onSignin = async (type) => {
-    history.push("/");
-  };
   const history = useHistory();
   useEffect(() => {
     if (user.userid) {
       history.push("/");
     }
   });
+
   return (
-    <div className="">
-      <label htmlFor="userid">
-        <input
-          type="text"
-          name=""
-          id="userid"
-          className="userid"
-          onChange={(e) => setUserId(e.target.value)}
-          required
-        />
-      </label>
-      <label htmlFor="password">
-        <input
-          type="text"
-          name=""
-          id="password"
-          className="userid"
-          required
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <button className="submit" type="submit" onClick={onSignin}>
-        Sign IN
-      </button>
-      <Link to={`/register`}>Dont have a account?</Link>
+    <div className="signin">
+      <div className="signin__form">
+        <h1 className="signin__heading">Sign In</h1>
+        <button
+          className="signin__btn--google signin__btn"
+          type="submit"
+          onClick={signinWithTwitter}
+        >
+          Twitter
+        </button>{" "}
+        <button
+          className="signin__btn--google signin__btn"
+          type="submit"
+          onClick={signinWithGithub}
+        >
+          Github
+        </button>{" "}
+        <button
+          className="signin__btn--google signin__btn"
+          type="submit"
+          onClick={signinWithFacebook}
+        >
+          Facebook
+        </button>
+        <button
+          className="signin__btn--google signin__btn"
+          type="submit"
+          onClick={signinWithGoogle}
+        >
+          Google
+        </button>
+      </div>
     </div>
   );
 };

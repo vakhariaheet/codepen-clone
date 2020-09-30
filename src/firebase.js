@@ -16,7 +16,22 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 export const db = firebase.firestore();
-
+export const auth = firebase.auth();
 export default firebase;
+
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const signinWithGoogle = () =>
+  auth.signInWithRedirect(googleAuthProvider);
+
+export const twitterAuthProvider = new firebase.auth.TwitterAuthProvider();
+export const signinWithTwitter = () =>
+  auth.signInWithRedirect(twitterAuthProvider);
+
+export const githubAuthProvider = new firebase.auth.GithubAuthProvider();
+export const signinWithGithub = () =>
+  auth.signInWithRedirect(githubAuthProvider);
+
+export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+export const signinWithFacebook = () =>
+  auth.signInWithRedirect(facebookAuthProvider);

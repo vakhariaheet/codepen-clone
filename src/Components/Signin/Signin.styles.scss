@@ -1,0 +1,74 @@
+@import "../Varibles.scss";
+.signin {
+  background-color: $charleston-green;
+  height: 100vh;
+  width: 100vw;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__heading {
+    font-size: 5rem;
+    color: $cultured-2;
+    margin-bottom: 3rem;
+  }
+  &__form {
+    max-width: 50rem;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__input {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 1rem;
+    font-size: 2.3rem;
+    border-radius: 3rem;
+    background-color: $gainsboro;
+    color: $gunmetal;
+    transition: all 0.2s ease-out;
+    &::placeholder {
+      color: $gunmetal;
+    }
+    &:active,
+    &:focus {
+      outline: none;
+      background-color: $cultured;
+    }
+    &--label {
+      display: inline-block;
+      height: 5rem;
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+  }
+  &__btn {
+    height: 6rem;
+    border-radius: 3rem;
+    width: 100%;
+    font-size: 2.5rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    margin-bottom: 3rem;
+    &--google {
+      border: 3px solid $google-blue;
+      color: $google-blue;
+      &:hover {
+        background-color: $google-blue;
+        color: $cultured;
+      }
+      &:focus {
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+}
