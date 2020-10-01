@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "../../firebase";
-
+import { db } from "../../firebase";
 import { Link } from "react-router-dom";
-const Homepage = ({ user, setUser }) => {
+const Homepage = ({ user, setUser, isUserSignin, setIsUserSignin }) => {
+  const [name, setName] = useState("");
   const history = useHistory();
   const onSignOut = () => {
     if (user.id) {
       auth.signOut();
       setUser({});
+      setIsUserSignin(false);
       history.push("/signin");
+    }
+  };
+  useEffect(() => {
+    if (!isUserSignin) {
+      history.push("/signin");
+    }
+  }, [history]);
+  const createNewPen = (event) => {
+    if (name) {
+      db.collection(`users/${user.id}/pens`).add({
+        name,
+        code: {
+          html: "",
+          css: "",
+          js: "",
+        },
+      });
     }
   };
   return (
@@ -25,6 +44,13 @@ const Homepage = ({ user, setUser }) => {
             );
           })
         : null}
+      <button onClick={createNewPen}>New Pen</button>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="New Pen Name"
+      />
     </div>
   );
 };

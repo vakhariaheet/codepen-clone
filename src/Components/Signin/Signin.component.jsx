@@ -7,10 +7,10 @@ import {
   signinWithGithub,
 } from "../../firebase";
 import "./Signin.styles.scss";
-const Signin = ({ user, setUser }) => {
+const Signin = ({ user, setUser, isUserSignin }) => {
   const history = useHistory();
   useEffect(() => {
-    if (user.userid) {
+    if (isUserSignin) {
       history.push("/");
     }
   });

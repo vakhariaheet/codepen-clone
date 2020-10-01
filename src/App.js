@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, useHistory } from "react-router-dom";
 import EditorPage from "./pages/EditorPage/editor.pages";
 import Signin from "./Components/Signin/Signin.component";
@@ -13,6 +13,7 @@ config();
 function App() {
   const history = useHistory();
   const [user, setUser] = useLocalStorage("CurrentUser", {});
+  const [isUserSignin, setIsUserSignin] = useState(false);
   const handelAuth = async () => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -47,8 +48,9 @@ function App() {
               },
             ],
           });
+          history.push("/");
+          setIsUserSignin(true);
         } else {
-          // console.log(newUser[0].id);
           const { id } = newUser[0];
           const data = newUser[0].data();
           const pensArr = [];
@@ -65,16 +67,25 @@ function App() {
             ...data,
             pens: pensArr,
           });
-          history.push("/");
+          setIsUserSignin(true);
         }
       }
     });
   };
   useEffect(() => {
-    if (user.id) {
-      history.push("/");
-    }
     handelAuth();
+    db.collection(`users/${user.id}/pens`).onSnapshot((snapshot) => {
+      const newUser = user;
+      newUser.pens = [];
+      snapshot.docs.forEach((doc) => {
+        newUser.pens.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setUser(user);
+    });
+    console.log(user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -83,20 +94,39 @@ function App() {
       <Route
         path="/"
         exact
-        render={() => <Homepage user={user} setUser={setUser} />}
+        render={() => (
+          <Homepage
+            user={user}
+            setUser={setUser}
+            isUserSignin={isUserSignin}
+            setIsUserSignin={setIsUserSignin}
+          />
+        )}
       />
       <Route path="/terminal" component={TerminalComponent} />
       <Route
         path="/signin"
         exact
-        render={() => <Signin user={user} setUser={setUser} />}
+        render={() => (
+          <Signin user={user} setUser={setUser} isUserSignin={isUserSignin} />
+        )}
       />
 
-      <Route path="/newPen" exact render={() => <EditorPage />} />
+      <Route
+        path="/newPen"
+        exact
+        render={() => (
+          <EditorPage
+            user={user}
+            setUser={setUser}
+            isUserSignin={isUserSignin}
+          />
+        )}
+      />
       <Route
         path="/:userid/pen/:id"
         exact
-        render={() => <EditorPage user={user} />}
+        render={() => <EditorPage user={user} isUserSignin={isUserSignin} />}
       />
     </div>
   );

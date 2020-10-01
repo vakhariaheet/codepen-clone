@@ -2,10 +2,11 @@ import React, { Fragment, useState, useEffect } from "react";
 import Editor from "../../Components/Editor/Editor.component";
 import { useParams, Link } from "react-router-dom";
 import { db } from "../../firebase";
+import uid from "uid";
 import useLocalStorage from "../../hooks/useLocalStorage.hooks";
 import "./EditorPage.styles.scss";
 
-function EditorPage({ user }) {
+function EditorPage({ user, setUser }) {
   const { id, userid } = useParams();
   const [html, setHTML] = useLocalStorage(`${userid}-${id}-html`, "");
   const [css, setCSS] = useLocalStorage(`${userid}-${id}-css`, "");
@@ -18,21 +19,40 @@ function EditorPage({ user }) {
     js: "",
   };
   const onSave = async () => {
-    const pen = await db.doc(`users/${user.id}/pens/${id}`).get();
+    if (!id) {
+      const penRef = await db.collection(`users/${user.id}/pens`).add({
+        name: uid(),
+        code: {
+          html,
+          css,
+          js,
+        },
+      });
+      const newPen = await penRef.get();
+      const newUser = user.pens.push({
+        id: newPen.id,
+        ...newPen.data(),
+      });
+      console.log(newPen);
+      setUser(newUser);
+    } else {
+      const pen = await db.doc(`users/${user.id}/pens/${id}`).get();
 
-    setPen({
-      id: pen.id,
-      ...pen.data,
-    });
-    await db.doc(`users/${user.id}/pens/${id}`).set({
-      ...pen.data(),
-      code: {
-        html,
-        css,
-        js,
-      },
-    });
-    alert("Save Successful");
+      setPen({
+        id: pen.id,
+        ...pen.data,
+      });
+      await db.doc(`users/${user.id}/pens/${id}`).set({
+        ...pen.data(),
+        code: {
+          html,
+          css,
+          js,
+        },
+      });
+      alert("Save Successful");
+    }
+
     // console.log(pen);
   };
   useEffect(() => {
@@ -50,22 +70,25 @@ function EditorPage({ user }) {
   }, [html, css, js]);
 
   useEffect(() => {
-    if (user.id) {
-      db.doc(`users/${user.id}/pens/${id}`)
-        .get()
-        .then((snapshot) => {
-          const { code } = snapshot.data();
-          setHTML(code.html);
-          setCSS(code.css);
-          setJS(code.js);
-          console.log(code);
-        });
+    if (user) {
+      if (user.id && id) {
+        db.doc(`users/${user.id}/pens/${id}`)
+          .get()
+          .then((snapshot) => {
+            const { code } = snapshot.data();
+            setHTML(code.html);
+            setCSS(code.css);
+            setJS(code.js);
+            console.log(code);
+          });
+      }
     } else {
       console.log("Initial code");
       setHTML(initialCode.html);
       setCSS(initialCode.css);
       setJS(initialCode.js);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
