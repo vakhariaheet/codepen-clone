@@ -5,7 +5,7 @@ import Signin from "./Components/Signin/Signin.component";
 import useLocalStorage from "./hooks/useLocalStorage.hooks";
 import Homepage from "./pages/Homepage/Homepage.pages";
 import TerminalComponent from "./Components/Termial";
-
+import Navbar from "./Components/Navbar/Navbar.component";
 import { config } from "dotenv";
 import { auth, db } from "./firebase";
 
@@ -91,6 +91,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Route
         path="/"
         exact
