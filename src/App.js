@@ -4,7 +4,6 @@ import EditorPage from "./pages/EditorPage/editor.pages";
 import Signin from "./Components/Signin/Signin.component";
 import useLocalStorage from "./hooks/useLocalStorage.hooks";
 import Homepage from "./pages/Homepage/Homepage.pages";
-import TerminalComponent from "./Components/Termial";
 import Loader from "./Components/Loader/Loader.component";
 import { auth, db } from "./firebase";
 function App() {
@@ -75,7 +74,6 @@ function App() {
   };
   useEffect(() => {
     handelAuth();
-
     var unsubscribe = db
       .collection(`users/${user.id}/pens`)
       .onSnapshot((snapshot) => {
@@ -108,7 +106,7 @@ function App() {
           />
         )}
       />
-      <Route path="/terminal" component={TerminalComponent} />
+
       <Route
         path="/signin"
         exact

@@ -16,6 +16,7 @@
       .CodeMirror {
         height: 100% !important;
         font-size: 1.7rem;
+        font-family: "Martel", serif;
       }
     }
   }
@@ -24,6 +25,7 @@
     justify-content: space-between;
     background-color: hsl(225, 6%, 13%);
     color: #fff;
+    font-family: "Vollkorn", serif;
     font-size: 2.5rem;
     padding: 0.5rem 0.5rem 0.5rem 1rem;
     border-top-right-radius: 0.5rem;
@@ -56,15 +58,24 @@
     justify-content: space-between;
     height: 5vh;
     padding: 1rem;
+    @media (max-width: 600px) {
+      flex-direction: column;
+      height: 100%;
+    }
     &--left-items {
       display: flex;
       align-items: center;
+      @media (max-width: 600px) {
+        flex-direction: column;
+      }
       .nav__item {
         margin-left: 2rem;
         font-size: 2.5rem;
         color: $light-gray;
+
         &--username {
           color: $cultured;
+          font-family: "Vollkorn", serif;
         }
       }
       #logo {
@@ -75,7 +86,7 @@
         stroke-linejoin: round;
         stroke-linecap: round;
         height: 100%;
-        width: 150px;
+        width: 15rem;
         &:hover {
           stroke: $cultured-2;
         }
@@ -95,6 +106,8 @@
         cursor: pointer;
         font-size: 2rem;
         transition: 0.3s all ease-out;
+        font-family: "Gudea", sans-serif;
+
         margin-right: 1rem;
         &:hover {
           background-color: $cultured-2;

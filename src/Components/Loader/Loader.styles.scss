@@ -1,10 +1,11 @@
+@import "../Varibles.scss";
 .loader {
   height: 100%;
   width: 100vw;
   position: absolute;
   top: 0;
   bottom: 0;
-  background-color: #f4afab;
+  background-color: $slate-gray;
   display: flex;
   justify-content: center;
   align-items: center;
