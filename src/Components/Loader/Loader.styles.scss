@@ -1,0 +1,29 @@
+.loader {
+  height: 100%;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #f4afab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  svg {
+    height: 100px;
+    width: 100px;
+    transform: scale(2);
+    display: block;
+    fill: none;
+    stroke: #000;
+    stroke-width: 2.3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    height: 100%;
+    width: 150px;
+  }
+}
+.loader-dot {
+  fill: #000;
+  stroke: none;
+}

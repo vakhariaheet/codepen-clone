@@ -1,12 +1,5 @@
 @import "../Varibles.scss";
 .signin {
-  background-color: $charleston-green;
-  height: 100vh;
-  width: 100vw;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   &__heading {
     font-size: 5rem;
     color: $cultured-2;
@@ -20,6 +13,15 @@
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
+    &--container {
+      background-color: $charleston-green;
+      height: 95vh;
+      width: 100vw;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   &__input {
     display: block;
@@ -70,5 +72,64 @@
         outline: none;
       }
     }
+    &--github {
+      border: 3px solid $github-white;
+      color: $github-white;
+      &:hover {
+        background-color: $github-black;
+      }
+      &:focus {
+        color: #fff;
+        outline: none;
+      }
+    }
+    &--facebook {
+      border: 3px solid $facebook-blue;
+      color: $google-blue;
+      &:hover {
+        background-color: $facebook-blue;
+        color: $cultured;
+      }
+      &:focus {
+        color: #fff;
+        outline: none;
+      }
+    }
+    &--twitter {
+      border: 3px solid $twitter-blue;
+      color: $twitter-blue;
+      &:hover {
+        background-color: $twitter-blue;
+        color: $cultured;
+      }
+      &:focus {
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+}
+
+.nav__signin {
+  background-color: $charleston-green;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5vh;
+  padding: 1rem;
+  &--newPen {
+    font-size: 2rem;
+    color: $light-gray;
+    text-decoration: none;
+  }
+  &--logo {
+    display: block;
+    fill: none;
+    stroke: $light-gray;
+    stroke-width: 2.3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    height: 100%;
+    width: 150px;
   }
 }

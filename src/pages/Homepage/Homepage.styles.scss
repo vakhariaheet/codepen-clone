@@ -1,0 +1,140 @@
+@import "../../Components/Varibles.scss";
+.nav__homepage {
+  height: 5vh;
+  width: 100%;
+  background-color: $charleston-green;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  &--btn {
+    height: 90%;
+    border-radius: 5rem;
+    width: 10rem;
+    border: none;
+    background-color: transparent;
+    border: 1px solid $cultured-2;
+    color: $cultured-2;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: 0.3s all ease-out;
+    margin-right: 1rem;
+    &:hover {
+      background-color: $cultured-2;
+
+      color: $charleston-green;
+    }
+  }
+}
+.homepage__container {
+  height: 95vh;
+  width: 100vw;
+  background-color: $gunmetal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .heading {
+    font-size: 6rem;
+    display: flex;
+    width: 100vw;
+
+    justify-content: center;
+    color: $gainsboro;
+  }
+  .createPen__container {
+    max-width: 70rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .createPen-input {
+      background-color: $gunmetal;
+      color: $gainsboro;
+      height: 5rem;
+      max-width: 50rem;
+      width: 100%;
+      font-size: 2.5rem;
+      padding: 0.5rem;
+      border: 2px solid $gainsboro;
+      border-right: none;
+      border-radius: 1.5rem 0 0 1.5rem;
+      transition: all 0.3s ease;
+      &::placeholder {
+        color: $gainsboro;
+      }
+      &:focus {
+        background-color: $gainsboro;
+        color: $gunmetal;
+        outline: none;
+        &::placeholder {
+          color: $gunmetal;
+        }
+      }
+      &--btn {
+        background-color: $gainsboro;
+        color: $gunmetal;
+        padding: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: 0.5s all ease;
+        border: 2px solid $gainsboro;
+        border-radius: 0 1.5rem 1.5rem 0;
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          border: 2px solid $gainsboro;
+          border-left: none;
+          color: $gainsboro;
+        }
+      }
+    }
+  }
+
+  .pen {
+    &__container {
+      max-width: 80rem;
+      width: 100%;
+      border: 2px solid $gainsboro;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      max-width: 50rem;
+      margin-top: 3rem;
+      .pen {
+        width: 100%;
+        border-bottom: 2px solid $gainsboro;
+        display: flex;
+
+        justify-content: space-between;
+        &__text {
+          padding: 1rem;
+          font-size: 2rem;
+          color: $gainsboro;
+          text-decoration: none;
+          &:hover {
+            color: $cultured-2;
+          }
+        }
+        &__btn {
+          height: 100%;
+          max-width: 10rem;
+          width: 100%;
+          background-color: transparent;
+          border-right: 1px solid $gainsboro;
+          border: none;
+          font-size: 2rem;
+          cursor: pointer;
+          transition: all 0.3s ease-in;
+          color: $gainsboro;
+          &:hover {
+            border-right-color: transparent;
+            background-color: #ee6352;
+          }
+        }
+      }
+    }
+  }
+  .pen:last-of-type {
+    border: none;
+  }
+}

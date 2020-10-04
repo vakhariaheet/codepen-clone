@@ -5,23 +5,22 @@ import Signin from "./Components/Signin/Signin.component";
 import useLocalStorage from "./hooks/useLocalStorage.hooks";
 import Homepage from "./pages/Homepage/Homepage.pages";
 import TerminalComponent from "./Components/Termial";
-import Navbar from "./Components/Navbar/Navbar.component";
-import { config } from "dotenv";
+import Loader from "./Components/Loader/Loader.component";
 import { auth, db } from "./firebase";
-
-config();
 function App() {
   const history = useHistory();
   const [user, setUser] = useLocalStorage("CurrentUser", {});
   const [isUserSignin, setIsUserSignin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handelAuth = async () => {
     auth.onAuthStateChanged(async (user) => {
+      setIsLoading(true);
       if (user) {
         const { displayName, photoURL, uid } = user;
 
         const { docs } = await db.collection("users").get();
         const newUser = docs.filter((doc) => doc.data().uid === uid);
-        console.log(newUser);
+
         if (!newUser.length) {
           const docRef = await db.collection(`users`).add({
             photoURL,
@@ -49,6 +48,7 @@ function App() {
             ],
           });
           history.push("/");
+          setIsLoading(false);
           setIsUserSignin(true);
         } else {
           const { id } = newUser[0];
@@ -61,37 +61,41 @@ function App() {
               ...doc.data(),
             });
           });
-          console.log(pens.docs, pensArr);
+
           setUser({
             id: id,
             ...data,
             pens: pensArr,
           });
           setIsUserSignin(true);
+          setIsLoading(false);
         }
       }
     });
   };
   useEffect(() => {
     handelAuth();
-    db.collection(`users/${user.id}/pens`).onSnapshot((snapshot) => {
-      const newUser = user;
-      newUser.pens = [];
-      snapshot.docs.forEach((doc) => {
-        newUser.pens.push({
-          id: doc.id,
-          ...doc.data(),
+
+    var unsubscribe = db
+      .collection(`users/${user.id}/pens`)
+      .onSnapshot((snapshot) => {
+        const newUser = user;
+        newUser.pens = [];
+        snapshot.docs.forEach((doc) => {
+          newUser.pens.push({
+            id: doc.id,
+            ...doc.data(),
+          });
         });
+        setUser(user);
       });
-      setUser(user);
-    });
-    console.log(user);
+    return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="App">
-      <Navbar />
+      {isLoading ? <Loader isLoading={isLoading} /> : null}
       <Route
         path="/"
         exact
@@ -109,7 +113,12 @@ function App() {
         path="/signin"
         exact
         render={() => (
-          <Signin user={user} setUser={setUser} isUserSignin={isUserSignin} />
+          <Signin
+            user={user}
+            setUser={setUser}
+            isUserSignin={isUserSignin}
+            setIsLoading={setIsLoading}
+          />
         )}
       />
 

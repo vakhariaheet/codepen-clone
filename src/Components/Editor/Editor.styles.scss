@@ -1,3 +1,4 @@
+@import "../Varibles.scss";
 .editor {
   &-container {
     flex-grow: 1;
@@ -46,4 +47,61 @@
 .cm-s-default {
   background-color: #36373b !important;
   color: white !important;
+}
+.nav {
+  &__editor {
+    background-color: $charleston-green;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 5vh;
+    padding: 1rem;
+    &--left-items {
+      display: flex;
+      align-items: center;
+      .nav__item {
+        margin-left: 2rem;
+        font-size: 2.5rem;
+        color: $light-gray;
+        &--username {
+          color: $cultured;
+        }
+      }
+      #logo {
+        display: block;
+        fill: none;
+        stroke: $light-gray;
+        stroke-width: 2.3;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        height: 100%;
+        width: 150px;
+        &:hover {
+          stroke: $cultured-2;
+        }
+      }
+    }
+    .right-items {
+      height: 5vh;
+      padding: 0.2rem;
+      .btn {
+        height: 90%;
+        border-radius: 5rem;
+        width: 10rem;
+        border: none;
+        background-color: transparent;
+        border: 1px solid $cultured-2;
+        color: $cultured-2;
+        cursor: pointer;
+        font-size: 2rem;
+        transition: 0.3s all ease-out;
+        margin-right: 1rem;
+        &:hover {
+          background-color: $cultured-2;
+
+          color: $charleston-green;
+        }
+      }
+    }
+  }
 }
