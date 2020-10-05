@@ -31,7 +31,3 @@ export const signinWithTwitter = () =>
 export const githubAuthProvider = new firebase.auth.GithubAuthProvider();
 export const signinWithGithub = () =>
   auth.signInWithRedirect(githubAuthProvider);
-
-export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-export const signinWithFacebook = () =>
-  auth.signInWithRedirect(facebookAuthProvider);

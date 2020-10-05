@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import {
   signinWithGoogle,
-  signinWithFacebook,
   signinWithTwitter,
   signinWithGithub,
 } from "../../firebase";
@@ -57,13 +56,6 @@ const Signin = ({ isUserSignin, setIsLoading }) => {
           >
             Github
           </button>{" "}
-          <button
-            className="signin__btn--facebook signin__btn"
-            type="submit"
-            onClick={() => onBtnClick(signinWithFacebook)}
-          >
-            Facebook
-          </button>
           <button
             className="signin__btn--google signin__btn"
             type="submit"
