@@ -4,7 +4,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAGj4wtjfwg9BnZshASFmg-XB8rGPI0kRc",
+  apiKey: "AIzaSyC7eGyIF2YramJO1I17b9HE0r3cVCEIUvY",
   authDomain: "codepen-e9316.firebaseapp.com",
   databaseURL: "https://codepen-e9316.firebaseio.com",
   projectId: "codepen-e9316",
