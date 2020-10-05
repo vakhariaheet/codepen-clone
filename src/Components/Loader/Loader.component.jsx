@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { gsap } from "gsap";
+import { gsap, TimelineMax } from "gsap";
 
 import "./Loader.styles.scss";
-
-const Loader = ({ isLoading }) => {
+gsap.registerPlugin(TimelineMax);
+const Loader = () => {
   useEffect(() => {
-    const tl = new gsap.timeline({ repeat: -1, yoyo: true });
+    const tl = new TimelineMax({ repeat: -1, yoyo: true });
     const dots = document.getElementsByClassName("loader-dot");
 
     for (let i = 3; i >= 0; i--) {
