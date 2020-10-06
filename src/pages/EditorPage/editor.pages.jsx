@@ -43,7 +43,6 @@ function EditorPage({ user, setUser, setCurrentPath }) {
       });
       history.push(`/${user.id}/pen/${newPen.id}`);
 
-      console.log(newPen, newUser);
       setUser(newUser);
     } else {
       const pen = await db.doc(`users/${user.id}/pens/${id}`).get();
@@ -62,8 +61,6 @@ function EditorPage({ user, setUser, setCurrentPath }) {
       });
       alert("Save Successful");
     }
-
-    // console.log(pen);
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -82,12 +79,11 @@ function EditorPage({ user, setUser, setCurrentPath }) {
   useEffect(() => {
     if (user) {
       if (user.id && id) {
-        console.log(user);
         db.doc(`users/${user.id}/pens/${id}`)
           .get()
           .then((snapshot) => {
             const pen = snapshot.data();
-            console.log(pen);
+
             setPen({
               id: pen.id,
               name: pen.name,
@@ -99,7 +95,6 @@ function EditorPage({ user, setUser, setCurrentPath }) {
           });
       }
     } else {
-      console.log("Initial code");
       setHTML(initialCode.html);
       setCSS(initialCode.css);
       setJS(initialCode.js);
