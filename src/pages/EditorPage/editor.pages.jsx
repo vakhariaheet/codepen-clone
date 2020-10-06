@@ -8,13 +8,21 @@ import "./EditorPage.styles.scss";
 function EditorPage({ user, setUser, setCurrentPath }) {
   const { id } = useParams();
   const [html, setHTML] = useState("");
-  const [css, setCSS] = useState("");
+  const [css, setCSS] = useState(`*,*::after,*::before{
+    margin:0;
+   padding:0;
+   box-sizing:border-box;
+  }`);
   const [js, setJS] = useState("");
   const [pen, setPen] = useState({});
   const [srcDoc, setSrcDoc] = useState("");
   const initialCode = {
     html: "",
-    css: "",
+    css: `*,*::after,*::before{
+      margin:0;
+     padding:0;
+     box-sizing:border-box;
+    }`,
     js: "",
   };
   const history = useHistory();

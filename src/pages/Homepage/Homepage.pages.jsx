@@ -30,7 +30,11 @@ const Homepage = ({
         name,
         code: {
           html: "",
-          css: "",
+          css: `*,*::after,*::before{
+            margin:0;
+           padding:0;
+           box-sizing:border-box;
+          }`,
           js: "",
         },
       });
